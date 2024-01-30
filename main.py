@@ -18,7 +18,7 @@ def get_data():
             exit(1)
 
 with open('./data/data.json', 'w') as f:
-    json.dump(get_data(), f, indent=4)
+    json.dump(get_data(), f, indent=3)
 
 with open('./data/data.json', 'r') as f:
     data = json.load(f)
