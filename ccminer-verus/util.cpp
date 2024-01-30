@@ -166,8 +166,7 @@ void gpulog(int prio, int thr_id, const char *fmt, ...)
 	if (prio == LOG_DEBUG && !opt_debug)
 		return;
 
-
-	len = snprintf(pfmt, 128, "CPU T%d: Verus Hashing", thr_id, fmt);
+	len = snprintf(pfmt, 128, "CPU T%d: Verus Hashing %s", thr_id, fmt);
 
 	pfmt[sizeof(pfmt)-1]='\0';
 
@@ -1692,8 +1691,8 @@ static bool stratum_benchdata(json_t *result, json_t *params, int thr_id)
 
 	//sprintf(vid, "%04hx:%04hx", cgpu->gpu_vid, cgpu->gpu_pid);
 	//sprintf(arch, "%d", (int) cgpu->gpu_arch);
-	snprintf(driver, 32, "CUDA %d.%d %s", cuda_ver/1000, (cuda_ver%1000) / 10, driver_version);
-	driver[31] = '\0';
+	snprintf(driver, sizeof(driver), "CUDA %d.%d %s", cuda_ver/1000, (cuda_ver%1000) / 10, driver_version);
+	driver[sizeof(driver) - 1] = '\0'; // Ensure null-termination
 
 	val = json_object();
 	json_object_set_new(val, "algo", json_string(algo));
