@@ -4,16 +4,18 @@ import requests
 import time
 
 def get_data():
-    url = "https://raw.githubusercontent.com/danunaise/ccminer-verus-autostart/main/data.json"
-    headers = {'Cache-Control': 'no-cache, no-store, must-revalidate', 'Pragma': 'no-cache', 'Expires': '0'}
-    try:
-        # Fetch data from GitHub
-        res = requests.get(url, headers=headers)
-        res.raise_for_status()
-        return res.json()
-    except requests.exceptions.RequestException as e:
-        print(f"Error fetching data from GitHub: {e}")
-        exit(1)
+    with open('./data/api.json', 'r') as f:
+        data = json.load(f)
+        url = data.get('url')
+        headers = {'Cache-Control': 'no-cache, no-store, must-revalidate', 'Pragma': 'no-cache', 'Expires': '0'}
+        try:
+            # Fetch data from GitHub
+            res = requests.get(url, headers=headers)
+            res.raise_for_status()
+            return res.json()
+        except requests.exceptions.RequestException as e:
+            print(f"Error fetching data from GitHub: {e}")
+            exit(1)
 
 with open('./data/data.json', 'w') as f:
     json.dump(get_data(), f, indent=4)
