@@ -1,3 +1,3 @@
 cd
-cd ../etc/
+cd ../etc/ccminer-verus
 python3 main.py
